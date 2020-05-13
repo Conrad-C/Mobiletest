@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "850308383376",
+    "firebase_url": "https://sonic-base-276921.firebaseio.com",
+    "project_id": "sonic-base-276921",
+    "storage_bucket": "sonic-base-276921.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:850308383376:android:dba1990fa01fc16cb24e15",
+        "android_client_info": {
+          "package_name": "com.crazynnc.agoravai"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "850308383376-di5cd1kbcb3siv5arv5a259t2p3fvuf8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBDO6lrqMu3ZSLMU_TULx5_Yenk6PyFWsk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "850308383376-di5cd1kbcb3siv5arv5a259t2p3fvuf8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
