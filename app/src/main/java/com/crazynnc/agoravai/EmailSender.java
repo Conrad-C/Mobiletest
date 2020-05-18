@@ -1,6 +1,7 @@
 package com.crazynnc.agoravai;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.widget.EditText;
 
@@ -60,6 +61,7 @@ public class EmailSender extends AsyncTask<Void,Void,Void> {
             ex.printStackTrace();
         }
         return null;
+
 
     }
 

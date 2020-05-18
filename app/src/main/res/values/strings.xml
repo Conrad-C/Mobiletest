@@ -1,3 +1,20 @@
 <resources>
     <string name="app_name">AgoraVai</string>
+    <string name="preencha_os_campos_abaixo">Preencha os campos abaixo!</string>
+    <string name="nome">Nome</string>
+    <string name="title_activity_login">Sign in</string>
+    <string name="prompt_email">Email</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">E-mail nao cadastrado</string>
+    <string name="invalid_password">Senha deve ter >5 caracteres</string>
+    <string name="login_failed">"Falha ao entrar"</string>
+    <string name="prompt_senha">Senha</string>
+    <string name="senha">Senha</string>
+    <string name="e_mail">E-mail</string>
+    <string name="ja_tem_uma_conta_entre_por_aqui">Ja tem uma conta?Entre por aqui!</string>
+    <string name="log_out">Log Out</string>
+    <string name="entrar">Entrar!</string>
+    />
 </resources>

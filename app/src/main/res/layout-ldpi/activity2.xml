@@ -8,21 +8,17 @@
 
     <Button
         android:id="@+id/mapa"
-        android:layout_width="167dp"
-        android:layout_height="38dp"
-        android:layout_marginStart="119dp"
-        android:layout_marginTop="441dp"
-        android:layout_marginEnd="80dp"
-        android:layout_marginBottom="104dp"
+        android:layout_width="190dp"
+        android:layout_height="42dp"
         android:background="#FFFFFF"
         android:backgroundTint="#5AFF9100"
-        android:text="VER LOCALIZACAO"
+        android:text="DEFINIR CASA"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.152"
+        app:layout_constraintHorizontal_bias="0.643"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5"
-        app:layout_constraintVertical_bias="0.795" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.851" />
 
     <TextView
         android:id="@+id/textView5"
@@ -35,10 +31,10 @@
         android:textAllCaps="true"
         app:layout_constraintBottom_toTopOf="@+id/imageView2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.801"
+        app:layout_constraintHorizontal_bias="0.8"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4"
-        app:layout_constraintVertical_bias="0.047" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/textView4"
@@ -57,19 +53,17 @@
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="49dp"
-        android:layout_height="82dp"
+        android:layout_width="47dp"
+        android:layout_height="79dp"
         android:layout_marginStart="43dp"
-        android:layout_marginTop="438dp"
         android:layout_marginEnd="14dp"
-        android:layout_marginBottom="25dp"
         android:backgroundTint="#F57F17"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/mapa"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bemVindo"
-        app:layout_constraintVertical_bias="1.0"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.89"
         app:srcCompat="@mipmap/ic_launcher_foreground" />
 
     <TextView
@@ -84,9 +78,22 @@
         android:textSize="23sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.101"
+        app:layout_constraintHorizontal_bias="0.092"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.093" />
+        app:layout_constraintVertical_bias="0.053" />
+
+    <TextView
+        android:id="@+id/logout"
+        android:layout_width="77dp"
+        android:layout_height="29dp"
+        android:layout_marginBottom="8dp"
+        android:text="Log Out"
+        android:textSize="17sp"
+        app:layout_constraintBottom_toTopOf="@+id/textView5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.952"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bemVindo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

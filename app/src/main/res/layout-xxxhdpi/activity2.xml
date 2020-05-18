@@ -16,7 +16,7 @@
         android:layout_marginBottom="104dp"
         android:background="#FFFFFF"
         android:backgroundTint="#5AFF9100"
-        android:text="VER LOCALIZACAO"
+        android:text="DEFINIR CASA"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -86,5 +86,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.141" />
+
+    <TextView
+        android:id="@+id/logout"
+        android:layout_width="77dp"
+        android:layout_height="29dp"
+        android:layout_marginBottom="8dp"
+        android:text="Log Out"
+        android:textColor="#F4ECEC"
+        android:textSize="17sp"
+        app:layout_constraintBottom_toTopOf="@+id/textView5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.952"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bemVindo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

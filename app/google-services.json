@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "850308383376-ps2qclbgsauorinapjo0s58bfeior633.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.crazynnc.agoravai",
+            "certificate_hash": "cb8a5ef652111601ae72eaae86a6bc4cd6705dba"
+          }
+        },
+        {
           "client_id": "850308383376-di5cd1kbcb3siv5arv5a259t2p3fvuf8.apps.googleusercontent.com",
           "client_type": 3
         }

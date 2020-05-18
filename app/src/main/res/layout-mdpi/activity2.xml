@@ -8,21 +8,19 @@
 
     <Button
         android:id="@+id/mapa"
-        android:layout_width="204dp"
-        android:layout_height="42dp"
+        android:layout_width="228dp"
+        android:layout_height="47dp"
         android:layout_marginStart="119dp"
-        android:layout_marginTop="441dp"
         android:layout_marginEnd="80dp"
-        android:layout_marginBottom="104dp"
         android:background="#FFFFFF"
         android:backgroundTint="#5AFF9100"
-        android:text="VER LOCALIZACAO"
+        android:text="DEFINIR CASA"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.301"
+        app:layout_constraintHorizontal_bias="0.401"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5"
-        app:layout_constraintVertical_bias="0.737" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.852" />
 
     <TextView
         android:id="@+id/textView5"
@@ -60,16 +58,14 @@
         android:layout_width="64dp"
         android:layout_height="147dp"
         android:layout_marginStart="43dp"
-        android:layout_marginTop="438dp"
         android:layout_marginEnd="14dp"
-        android:layout_marginBottom="25dp"
         android:backgroundTint="#F57F17"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/mapa"
-        app:layout_constraintHorizontal_bias="0.481"
+        app:layout_constraintHorizontal_bias="0.688"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bemVindo"
-        app:layout_constraintVertical_bias="0.828"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.951"
         app:srcCompat="@mipmap/ic_launcher_foreground" />
 
     <TextView
@@ -90,5 +86,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/logout"
+        android:layout_width="77dp"
+        android:layout_height="29dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/log_out"
+        android:textSize="17sp"
+        app:layout_constraintBottom_toTopOf="@+id/textView5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.952"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bemVindo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
