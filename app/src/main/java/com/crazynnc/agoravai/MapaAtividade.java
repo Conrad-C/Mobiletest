@@ -1,13 +1,17 @@
 package com.crazynnc.agoravai;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
+import android.location.LocationListener;
 import android.os.Bundle;
 import android.os.Looper;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -37,6 +41,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import org.w3c.dom.ls.LSException;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Timer;
@@ -44,37 +49,29 @@ import java.util.TimerTask;
 
 import javax.mail.internet.MimeMessage;
 
+import static com.google.android.material.internal.ContextUtils.getActivity;
+
 
 public class MapaAtividade extends AppCompatActivity {
+    public double CasaLAT, CasaLNG, latitude, longitude;
+    public String email, nome;
     Location localizacao;
     SupportMapFragment supportMapFragment;
     FusedLocationProviderClient client;
-    FirebaseAuth mAuthBase;
+    DatabaseReference mAuthBasee;
     FirebaseUser curUser = FirebaseAuth.getInstance().getCurrentUser();
-    FirebaseAuth.AuthStateListener authlistener;
-    DatabaseReference locData = FirebaseDatabase.getInstance().getReference();
-
+    DatabaseReference locData = FirebaseDatabase.getInstance().getReference("Usuarios");
+    DatabaseReference refNomeEmail = FirebaseDatabase.getInstance().getReference().child("Usuarios").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
     private static final int REQUEST_CODE = 101;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         System.out.println("Nice1");
-
         super.onCreate(savedInstanceState);
-        DatabaseReference locChild = locData.child("UsuariosCasas");
-        String idl = locChild.push().getKey();
-
-
         System.out.println("Nice2");
-
         setContentView(R.layout.mapa);
-
-
         supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapa);
-
         client = LocationServices.getFusedLocationProviderClient(this);
-
         if(ActivityCompat.checkSelfPermission(MapaAtividade.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
             System.out.println("Nice4");
             getLocation();
@@ -82,12 +79,7 @@ public class MapaAtividade extends AppCompatActivity {
             ActivityCompat.requestPermissions(MapaAtividade.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},44);
             getLocation();
         }
-
     }
-
-
-
-
     private void getLocation() {
         System.out.println("Nice5");
         Task<Location> task = client.getLastLocation();
@@ -104,7 +96,7 @@ public class MapaAtividade extends AppCompatActivity {
                     supportMapFragment.getMapAsync(new OnMapReadyCallback() {
                         @Override
                         public void onMapReady(final GoogleMap googleMap) {
-                            LatLng latLng = new LatLng(localizacao.getLatitude(), localizacao.getLongitude());
+                            final LatLng latLng = new LatLng(localizacao.getLatitude(), localizacao.getLongitude());
                             final MarkerOptions markerOptions = new MarkerOptions().position(latLng).title("Definir sua casa aqui?");
                             googleMap.setMyLocationEnabled(true);
                             googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
@@ -116,6 +108,7 @@ public class MapaAtividade extends AppCompatActivity {
                                     MarkerOptions marker = new MarkerOptions().position(new LatLng(point.latitude, point.longitude)).title("Definir sua casa aqui?");
                                     googleMap.clear();
                                     googleMap.addMarker(marker);
+
                                 }
                             });
                             final AlertDialog.Builder confirmLoc = new AlertDialog.Builder(MapaAtividade.this);
@@ -127,14 +120,28 @@ public class MapaAtividade extends AppCompatActivity {
                                     Toast toast1 = Toast.makeText(MapaAtividade.this, "Localizacao definida como casa!", Toast.LENGTH_SHORT);
                                     toast1.show();
                                     if(curUser != null){
-                                        double CasaLNG = googleMap.getMyLocation().getLongitude();
-                                        double CasaLAT = googleMap.getMyLocation().getLatitude();
-                                        Intent casaLoc = new Intent(MapaAtividade.this,TelaPosLogin.class);
-                                        Bundle doubles = new Bundle();
-                                        doubles.putDouble("CasaLAT",CasaLAT);
-                                        doubles.putDouble("CasaLNG",CasaLNG);
-                                        casaLoc.putExtras(doubles);
-                                        startActivity(casaLoc);
+                                        String email = curUser.getEmail();
+                                        CasaLNG = googleMap.getMyLocation().getLongitude();
+                                        CasaLAT = googleMap.getMyLocation().getLatitude();
+                                        CircleOptions circleOptions = new CircleOptions();
+                                        circleOptions.center(new LatLng(CasaLAT,CasaLNG));
+                                        circleOptions.radius(15);
+                                        circleOptions.strokeColor(Color.BLUE);
+                                        circleOptions.fillColor(Color.LTGRAY);
+                                        Map<String, Object> updates = new HashMap<String,Object>();
+                                        updates.put("E-mail",email);
+                                        updates.put("Latitude",CasaLAT);
+                                        updates.put("Longitude",CasaLNG);
+                                        refNomeEmail.updateChildren(updates);
+                                        Bundle definirca = new Bundle();
+                                        Intent definircasa = new Intent(MapaAtividade.this,TelaPosLogin.class);
+                                        definirca.putDouble("CasaLAT",CasaLAT);
+                                        definirca.putDouble("CasaLNG",CasaLNG);
+                                        definirca.putDouble("AtualLAT",localizacao.getLatitude());
+                                        definirca.putDouble("AtualLNG",localizacao.getLongitude());
+                                        definirca.putDouble("raioCircle",circleOptions.getRadius());
+                                        definircasa.putExtras(definirca);
+                                        startActivity(definircasa);
                                 }}
                             });
                             confirmLoc.setNegativeButton("NAO", new DialogInterface.OnClickListener() {
@@ -162,7 +169,6 @@ public class MapaAtividade extends AppCompatActivity {
         });
     }
 
-    @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if(requestCode==44)
                 if(grantResults.length>0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -170,8 +176,5 @@ public class MapaAtividade extends AppCompatActivity {
                 }
 
         }
-
-
-
 
 }

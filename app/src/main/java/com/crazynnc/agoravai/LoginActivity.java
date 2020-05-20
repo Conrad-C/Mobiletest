@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,33 +16,38 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class LoginActivity extends AppCompatActivity {
 
+    public static final String NOME_TEXTO = "com.crazynnc.agoravai.NOME_TEXTO";
+    public static final String EMAIL_TEXTO = "com.crazynnc.agoravai.EMAIL_TEXTO";
     private EditText nomevalor;
     private EditText emailvalor;
     private EditText senhavalor;
+    public String nome;
     Button btn;
     FirebaseAuth mAuthBase;
+    DatabaseReference mRefraiz = FirebaseDatabase.getInstance().getReference("Usuarios");
     private FirebaseAuth.AuthStateListener authListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-
+        final String nome = getIntent().getStringExtra("nome");
+        System.out.println(nome);
         mAuthBase = FirebaseAuth.getInstance();
         emailvalor = findViewById(R.id.username);
         senhavalor = findViewById(R.id.password);
         Button btn = findViewById(R.id.buttonLogar);
-
         authListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser usuarioAtivo = mAuthBase.getCurrentUser();
                 if (usuarioAtivo != null) {
+                    mRefraiz.child(usuarioAtivo.getUid()).child("Nome").setValue(nome);
                     Toast.makeText(LoginActivity.this, "Você está logado!", Toast.LENGTH_SHORT).show();
                     Intent logou = new Intent(LoginActivity.this, TelaPosLogin.class);
                     startActivity(logou);
