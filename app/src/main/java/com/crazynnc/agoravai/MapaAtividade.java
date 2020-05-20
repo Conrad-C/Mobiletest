@@ -1,28 +1,19 @@
 package com.crazynnc.agoravai;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
-import android.location.LocationListener;
 import android.os.Bundle;
-import android.os.Looper;
-import android.util.Log;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.FragmentActivity;
-
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -31,7 +22,6 @@ import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -39,45 +29,31 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import org.w3c.dom.ls.LSException;
-
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
-import java.util.Timer;
-import java.util.TimerTask;
-
-import javax.mail.internet.MimeMessage;
-
-import static com.google.android.material.internal.ContextUtils.getActivity;
 
 
 public class MapaAtividade extends AppCompatActivity {
-    public double CasaLAT, CasaLNG, latitude, longitude;
-    public String email, nome;
+    public double CasaLAT, CasaLNG;
+    public String nome;
     Location localizacao;
     SupportMapFragment supportMapFragment;
     FusedLocationProviderClient client;
-    DatabaseReference mAuthBasee;
     FirebaseUser curUser = FirebaseAuth.getInstance().getCurrentUser();
-    DatabaseReference locData = FirebaseDatabase.getInstance().getReference("Usuarios");
     DatabaseReference refNomeEmail = FirebaseDatabase.getInstance().getReference().child("Usuarios").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
     private static final int REQUEST_CODE = 101;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        System.out.println("Nice1");
         super.onCreate(savedInstanceState);
-        System.out.println("Nice2");
         setContentView(R.layout.mapa);
         supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapa);
         client = LocationServices.getFusedLocationProviderClient(this);
         if(ActivityCompat.checkSelfPermission(MapaAtividade.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
-            System.out.println("Nice4");
             getLocation();
         }else {
             ActivityCompat.requestPermissions(MapaAtividade.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},44);
-            getLocation();
+
         }
     }
     private void getLocation() {
@@ -125,7 +101,7 @@ public class MapaAtividade extends AppCompatActivity {
                                         CasaLAT = googleMap.getMyLocation().getLatitude();
                                         CircleOptions circleOptions = new CircleOptions();
                                         circleOptions.center(new LatLng(CasaLAT,CasaLNG));
-                                        circleOptions.radius(15);
+                                        circleOptions.radius(20);
                                         circleOptions.strokeColor(Color.BLUE);
                                         circleOptions.fillColor(Color.LTGRAY);
                                         Map<String, Object> updates = new HashMap<String,Object>();
@@ -168,10 +144,9 @@ public class MapaAtividade extends AppCompatActivity {
             }
         });
     }
-
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if(requestCode==44)
-                if(grantResults.length>0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if(grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     getLocation();
                 }
 

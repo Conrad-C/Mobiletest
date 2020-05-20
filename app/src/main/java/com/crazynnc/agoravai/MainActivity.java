@@ -1,5 +1,6 @@
 package com.crazynnc.agoravai;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -11,7 +12,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -23,13 +23,15 @@ import com.google.firebase.database.FirebaseDatabase;
 
 
 
-public abstract class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
 
     public static final String NOME_TEXTO = "com.crazynnc.agoravai.NOME_TEXTO";
     public static final String EMAIL_TEXTO = "com.crazynnc.agoravai.EMAIL_TEXTO";
     private EditText nomevalor;
     private EditText emailvalor;
     private EditText senhavalor;
+    double CasaLAT, CasaLNG;
     private int senhaL;
     DatabaseReference trefRaiz = FirebaseDatabase.getInstance().getReference();
     DatabaseReference ttesteRef = trefRaiz.child("Nomes");
@@ -153,9 +155,9 @@ public abstract class MainActivity extends AppCompatActivity implements View.OnC
     @Override
     public void onClick(View v) {
        EmailSender();
-       }
-}
 
+       }
+    }
 
 
 

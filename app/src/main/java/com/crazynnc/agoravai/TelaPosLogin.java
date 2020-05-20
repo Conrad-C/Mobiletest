@@ -22,13 +22,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.Arrays;
-
 public class TelaPosLogin extends MainActivity {
 
-    LocationManager locationManager=(LocationManager)getSystemService(LOCATION_SERVICE);
-    private static final long MIN_TIME_BW_UPDATES = 1;
-    private static final float MIN_DISTANCE_CHANGE_FOR_UPDATES = 30;
     private TextView bemvindo;
     private Button mapa;
     private TextView logout;
@@ -40,7 +35,7 @@ public class TelaPosLogin extends MainActivity {
     FirebaseUser curUser;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity2);
         mAuthBase = FirebaseDatabase.getInstance().getReference();
@@ -56,32 +51,7 @@ public class TelaPosLogin extends MainActivity {
             CasaLNG = doubles.getDouble("CasaLNG");
             raioCircle = doubles.getDouble("raioCircle");
         }
-        float[] results = new float[1];
-        Location.distanceBetween(AtualLAT,AtualLNG,CasaLAT,CasaLNG,results);
-        if(results[0] < raioCircle){
-            System.out.println("Entrou em casa");
-            NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
-            String mensSaiu = "Descanse bem!";
-            NotificationCompat.Builder notBuild = new NotificationCompat.Builder(TelaPosLogin.this);
-            notBuild.setSmallIcon(R.drawable.ic_5efd303cdfc177c656973b2ec7b0d8ee_google_maps_png_transparent_google_mapspng_images_pluspng_1600_1600);
-            notBuild.setContentTitle("Você chegou em casa!");
-            notBuild.setContentText(mensSaiu);
-            notBuild.setAutoCancel(true);
-            notificationManager.notify(0,notBuild.build());
-        }else if(results[0] > raioCircle){
-            System.out.println("Saiu de casa");
-            NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
-            String mensSaiu = "Se divirta!";
-            NotificationCompat.Builder notBuild = new NotificationCompat.Builder(TelaPosLogin.this);
-            notBuild.setSmallIcon(R.drawable.ic_5efd303cdfc177c656973b2ec7b0d8ee_google_maps_png_transparent_google_mapspng_images_pluspng_1600_1600);
-            notBuild.setContentTitle("Você saiu de casa!");
-            notBuild.setContentText(mensSaiu);
-            notBuild.setAutoCancel(true);
-            notificationManager.notify(0,notBuild.build());
-        }
-        Location latLng = new Location(Location.convert(CasaLAT+CasaLNG,1));
-
-
+        final Location latLng = new Location(Location.convert(CasaLAT+CasaLNG,1));
         mapa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,6 +68,50 @@ public class TelaPosLogin extends MainActivity {
                 startActivity(new Intent(TelaPosLogin.this, MainActivity.class));
             }
         });
+        LocationListener locationListener = new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+                if(location==null){
+                    onCreate(savedInstanceState);
+                }else if(latLng!=null){
+                float[] results = new float[1];
+                Location.distanceBetween(location.getLatitude(),location.getLongitude(),CasaLAT,CasaLNG,results);
+                if(results[0] < raioCircle){
+                    String message = "Voce chegou em casa!";
+                    String titulo = "Descanse bem!";
+                    notification(message,titulo);
+                }else if(results[0] > raioCircle){
+                    String message = "Voce saiu de casa!";
+                    String titulo = "Divirta-se!";
+                    notification(message,titulo);
+                }
+            }}
+
+            @Override
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+
+            }
+
+            @Override
+            public void onProviderEnabled(String provider) {
+
+            }
+
+            @Override
+            public void onProviderDisabled(String provider) {
+
+            }
+        };
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        locationManager.requestLocationUpdates(
+                LocationManager.GPS_PROVIDER,
+                1000,
+                1,
+                locationListener);
     }
 
     public void LocalMapa(){
@@ -106,48 +120,16 @@ public class TelaPosLogin extends MainActivity {
 
     }
 
-    LocationListener locationListener = new LocationListener() {
-        @Override
-        public void onLocationChanged(Location location) {
-            float[] results = new float[1];
-            Location.distanceBetween(AtualLAT,AtualLNG,CasaLAT,CasaLNG,results);
-            if(results[0] < raioCircle){
-                System.out.println("Entrou em casa");
-                NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
-                String mensSaiu = "Descanse bem!";
-                NotificationCompat.Builder notBuild = new NotificationCompat.Builder(TelaPosLogin.this);
-                notBuild.setSmallIcon(R.drawable.ic_5efd303cdfc177c656973b2ec7b0d8ee_google_maps_png_transparent_google_mapspng_images_pluspng_1600_1600);
-                notBuild.setContentTitle("Você chegou em casa!");
-                notBuild.setContentText(mensSaiu);
-                notBuild.setAutoCancel(true);
-                notificationManager.notify(0,notBuild.build());
-            }else if(results[0] > raioCircle){
-                System.out.println("Saiu de casa");
-                NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
-                String mensSaiu = "Se divirta!";
-                NotificationCompat.Builder notBuild = new NotificationCompat.Builder(TelaPosLogin.this);
-                notBuild.setSmallIcon(R.drawable.ic_5efd303cdfc177c656973b2ec7b0d8ee_google_maps_png_transparent_google_mapspng_images_pluspng_1600_1600);
-                notBuild.setContentTitle("Você saiu de casa!");
-                notBuild.setContentText(mensSaiu);
-                notBuild.setAutoCancel(true);
-                notificationManager.notify(0,notBuild.build());
-            }
-        }
 
-        @Override
-        public void onStatusChanged(String provider, int status, Bundle extras) {
 
-        }
-
-        @Override
-        public void onProviderEnabled(String provider) {
-
-        }
-
-        @Override
-        public void onProviderDisabled(String provider) {
-
-        }
-    };
+    private void notification(String message, String titulo){
+        NotificationCompat.Builder notBuild = new NotificationCompat.Builder(TelaPosLogin.this);
+        notBuild.setSmallIcon(R.drawable.ic_5efd303cdfc177c656973b2ec7b0d8ee_google_maps_png_transparent_google_mapspng_images_pluspng_1600_1600);
+        notBuild.setContentTitle(titulo);
+        notBuild.setContentText(message);
+        notBuild.setAutoCancel(true);
+        NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(0,notBuild.build());
+    }
 
 }
