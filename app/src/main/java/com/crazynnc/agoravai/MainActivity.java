@@ -1,7 +1,10 @@
 package com.crazynnc.agoravai;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -11,6 +14,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -67,41 +72,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(new Intent(MainActivity.this,LoginActivity.class));
             }
        });
+
         confirmar.setOnClickListener(this);
         }
     @Override
     protected void onStart(){
     super.onStart();
 
-    /*ttesteRef.addValueEventListener(new ValueEventListener() {
-        @Override
-       public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-            String testeReff = dataSnapshot.getValue().toString().trim();
-            System.out.println(testeReff);
-            if(testeReff.equals("SS")){
-                NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
-                Intent notInt = new Intent(MainActivity.this,NotificationActivity.class);
-                PendingIntent pendingIntent = PendingIntent.getActivity(MainActivity.this,0,notInt,PendingIntent.FLAG_UPDATE_CURRENT);
-
-
-                String mensSaiu = "Trancou tudo e nao esqueceu de nada?";
-                NotificationCompat.Builder notBuild = new NotificationCompat.Builder(MainActivity.this);
-                notBuild.setSmallIcon(R.drawable.ic_5efd303cdfc177c656973b2ec7b0d8ee_google_maps_png_transparent_google_mapspng_images_pluspng_1600_1600);
-                notBuild.setContentTitle("Você saiu de casa, isso está certo?");
-                notBuild.setContentText(mensSaiu);
-                notBuild.setAutoCancel(true);
-                notInt.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                notBuild.setContentIntent(pendingIntent);
-                notificationManager.notify(0,notBuild.build());
-
-            }
-        }
-
-        @Override
-        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-        }
-    });*/
 
     }
             public void EmailSender() {
@@ -151,12 +128,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
-
-    @Override
+                @Override
     public void onClick(View v) {
-       EmailSender();
+      runtime_permissions();
 
        }
+    private boolean runtime_permissions() {
+        if(Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
+        && ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED){
+
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},100);
+
+            return true;
+        }else if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                && ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED){
+        EmailSender();
+        }
+        return false;
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode == 100){
+            if( grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED && grantResults[2] == PackageManager.PERMISSION_GRANTED){
+                EmailSender();
+            }else {
+                runtime_permissions();
+            }
+        }
+    }
     }
 
 

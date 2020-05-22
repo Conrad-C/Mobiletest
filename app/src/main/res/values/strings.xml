@@ -16,5 +16,10 @@
     <string name="ja_tem_uma_conta_entre_por_aqui">Ja tem uma conta?Entre por aqui!</string>
     <string name="log_out">Log Out</string>
     <string name="entrar">Entrar!</string>
+    <string name="title_activity_tela_p_l_atividade">TelaPLAtividade</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
+    <string name="definir_casa">DEFINIR CASA</string>
+    <string name="contatos">CONTATOS</string>
     />
 </resources>

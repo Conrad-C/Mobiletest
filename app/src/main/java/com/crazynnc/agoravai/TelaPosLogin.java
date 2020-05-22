@@ -14,9 +14,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -28,8 +35,9 @@ public class TelaPosLogin extends MainActivity {
     private Button mapa;
     private TextView logout;
     double CasaLAT, AtualLAT;
-    double CasaLNG, AtualLNG;
+    public double CasaLNG, AtualLNG;
     double raioCircle;
+    int count;
     public String email, nome;
     DatabaseReference mAuthBase;
     FirebaseUser curUser;
@@ -38,98 +46,32 @@ public class TelaPosLogin extends MainActivity {
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity2);
-        mAuthBase = FirebaseDatabase.getInstance().getReference();
-        curUser = FirebaseAuth.getInstance().getCurrentUser();
-        email = curUser.getEmail();
-        bemvindo = findViewById(R.id.bemVindo);
-        mapa = findViewById(R.id.mapa);
-        Bundle doubles = getIntent().getExtras();
-        if (doubles != null) {
-            AtualLAT = doubles.getDouble("AtualLAT");
-            CasaLAT = doubles.getDouble("CasaLAT");
-            AtualLNG = doubles.getDouble("AtualLNG");
-            CasaLNG = doubles.getDouble("CasaLNG");
-            raioCircle = doubles.getDouble("raioCircle");
-        }
-        final Location latLng = new Location(Location.convert(CasaLAT+CasaLNG,1));
-        mapa.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LocalMapa();
-            }
-        });
-        bemvindo.setText("Bem vindo!");
-        logout = findViewById(R.id.logout);
-        logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                logout.setTextColor(Color.BLACK);
-                FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(TelaPosLogin.this, MainActivity.class));
-            }
-        });
-        LocationListener locationListener = new LocationListener() {
-            @Override
-            public void onLocationChanged(Location location) {
-                if(location==null){
-                    onCreate(savedInstanceState);
-                }else if(latLng!=null){
-                float[] results = new float[1];
-                Location.distanceBetween(location.getLatitude(),location.getLongitude(),CasaLAT,CasaLNG,results);
-                if(results[0] < raioCircle){
-                    String message = "Voce chegou em casa!";
-                    String titulo = "Descanse bem!";
-                    notification(message,titulo);
-                }else if(results[0] > raioCircle){
-                    String message = "Voce saiu de casa!";
-                    String titulo = "Divirta-se!";
-                    notification(message,titulo);
-                }
-            }}
-
-            @Override
-            public void onStatusChanged(String provider, int status, Bundle extras) {
-
-            }
-
-            @Override
-            public void onProviderEnabled(String provider) {
-
-            }
-
-            @Override
-            public void onProviderDisabled(String provider) {
-
-            }
-        };
-        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        ViewPager v = findViewById(R.id.viewpager);
+        PagerAdapter pa = new AdaptadorPage(getSupportFragmentManager());
+        v.setAdapter(pa);
+        TabLayout tab = findViewById(R.id.tab);
+        tab.setupWithViewPager(v);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
-        locationManager.requestLocationUpdates(
-                LocationManager.GPS_PROVIDER,
-                1000,
-                1,
-                locationListener);
-    }
-
-    public void LocalMapa(){
-        Intent mapaLocal = new Intent(this, MapaAtividade.class);
-        startActivity(mapaLocal);
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) ==
+                PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) ==
+                        PackageManager.PERMISSION_GRANTED) {
+        } else {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
+        }
 
     }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == 1) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-
-
-    private void notification(String message, String titulo){
-        NotificationCompat.Builder notBuild = new NotificationCompat.Builder(TelaPosLogin.this);
-        notBuild.setSmallIcon(R.drawable.ic_5efd303cdfc177c656973b2ec7b0d8ee_google_maps_png_transparent_google_mapspng_images_pluspng_1600_1600);
-        notBuild.setContentTitle(titulo);
-        notBuild.setContentText(message);
-        notBuild.setAutoCancel(true);
-        NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(0,notBuild.build());
+            }
+        }
     }
+
 
 }

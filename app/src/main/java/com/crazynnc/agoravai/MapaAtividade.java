@@ -1,6 +1,7 @@
 package com.crazynnc.agoravai;
 
 import android.Manifest;
+import android.app.AlarmManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -12,6 +13,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -36,6 +40,7 @@ import java.util.Map;
 public class MapaAtividade extends AppCompatActivity {
     public double CasaLAT, CasaLNG;
     public String nome;
+    AlarmManager alarmManager;
     Location localizacao;
     SupportMapFragment supportMapFragment;
     FusedLocationProviderClient client;
@@ -49,10 +54,10 @@ public class MapaAtividade extends AppCompatActivity {
         setContentView(R.layout.mapa);
         supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapa);
         client = LocationServices.getFusedLocationProviderClient(this);
-        if(ActivityCompat.checkSelfPermission(MapaAtividade.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+        if(ActivityCompat.checkSelfPermission(MapaAtividade.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(MapaAtividade.this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED){
             getLocation();
         }else {
-            ActivityCompat.requestPermissions(MapaAtividade.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},44);
+            ActivityCompat.requestPermissions(MapaAtividade.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION},44);
 
         }
     }
@@ -76,7 +81,7 @@ public class MapaAtividade extends AppCompatActivity {
                             final MarkerOptions markerOptions = new MarkerOptions().position(latLng).title("Definir sua casa aqui?");
                             googleMap.setMyLocationEnabled(true);
                             googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
-                            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 20));
+                            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 12));
                             googleMap.addMarker(markerOptions);
                             googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
                                 @Override
@@ -101,7 +106,7 @@ public class MapaAtividade extends AppCompatActivity {
                                         CasaLAT = googleMap.getMyLocation().getLatitude();
                                         CircleOptions circleOptions = new CircleOptions();
                                         circleOptions.center(new LatLng(CasaLAT,CasaLNG));
-                                        circleOptions.radius(20);
+                                        circleOptions.radius(15);
                                         circleOptions.strokeColor(Color.BLUE);
                                         circleOptions.fillColor(Color.LTGRAY);
                                         Map<String, Object> updates = new HashMap<String,Object>();
@@ -109,15 +114,7 @@ public class MapaAtividade extends AppCompatActivity {
                                         updates.put("Latitude",CasaLAT);
                                         updates.put("Longitude",CasaLNG);
                                         refNomeEmail.updateChildren(updates);
-                                        Bundle definirca = new Bundle();
-                                        Intent definircasa = new Intent(MapaAtividade.this,TelaPosLogin.class);
-                                        definirca.putDouble("CasaLAT",CasaLAT);
-                                        definirca.putDouble("CasaLNG",CasaLNG);
-                                        definirca.putDouble("AtualLAT",localizacao.getLatitude());
-                                        definirca.putDouble("AtualLNG",localizacao.getLongitude());
-                                        definirca.putDouble("raioCircle",circleOptions.getRadius());
-                                        definircasa.putExtras(definirca);
-                                        startActivity(definircasa);
+                                        startService(new Intent(getApplicationContext(), NotificationService.class));
                                 }}
                             });
                             confirmLoc.setNegativeButton("NAO", new DialogInterface.OnClickListener() {
@@ -144,12 +141,14 @@ public class MapaAtividade extends AppCompatActivity {
             }
         });
     }
+    @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if(requestCode==44)
-                if(grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    getLocation();
-                }
+            if(grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                getLocation();
+            }
 
-        }
+    }
+
 
 }
