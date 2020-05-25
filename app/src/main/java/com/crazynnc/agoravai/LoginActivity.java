@@ -19,6 +19,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class LoginActivity extends AppCompatActivity {
 
     public static final String NOME_TEXTO = "com.crazynnc.agoravai.NOME_TEXTO";
@@ -47,7 +50,10 @@ public class LoginActivity extends AppCompatActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser usuarioAtivo = mAuthBase.getCurrentUser();
                 if (usuarioAtivo != null) {
-                    mRefraiz.child(usuarioAtivo.getUid()).child("Nome").setValue(nome);
+                    Map<String, Object> updates = new HashMap<String,Object>();
+                    updates.put("Nome",nome);
+                    mRefraiz.child(usuarioAtivo.getUid()).updateChildren(updates);
+
                     Toast.makeText(LoginActivity.this, "Você está logado!", Toast.LENGTH_SHORT).show();
                     Intent logou = new Intent(LoginActivity.this, TelaPosLogin.class);
                     startActivity(logou);
