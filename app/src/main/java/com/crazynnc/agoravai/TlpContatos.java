@@ -19,11 +19,18 @@ import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class TlpContatos extends Fragment {
     TextView listaContatos;
+    DatabaseReference refNomeEmail = FirebaseDatabase.getInstance().getReference().child("Usuarios").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
     ArrayList<String> arrayList;
     ArrayAdapter<String> arrayAdapter;
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -48,10 +55,15 @@ public class TlpContatos extends Fragment {
         while(cursor.moveToNext()){
         String nome=cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
         String numero=cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-        nome = nome.replaceAll(",","");
+        nome = nome.replace(",","").replace(".","").replace("#","").replace("$","")
+                .replace("[","").replace("]","");
+
         numero = numero.replaceAll(",","");
         arrayList.add(nome+"\n"+numero+"\n\n");
         listaContatos.setText(arrayList.toString());
+        Map<String, Object> updates = new HashMap<String,Object>();
+        updates.put("Numero",numero);
+        refNomeEmail.child("Contatos").child(nome).updateChildren(updates);
     }
     }
 

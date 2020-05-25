@@ -29,8 +29,6 @@ import java.util.Map;
 
 
 public class AlertActivity extends Activity {
-    int conta;
-    ArrayList<String> arrayList;
     DatabaseReference refNomeEmail = FirebaseDatabase.getInstance().getReference().child("Usuarios").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
     @Override
