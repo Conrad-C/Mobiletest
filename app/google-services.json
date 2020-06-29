@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "179783913510",
+    "firebase_url": "https://loginmelhor.firebaseio.com",
+    "project_id": "loginmelhor",
+    "storage_bucket": "loginmelhor.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:179783913510:android:d60111655a1ba0fc6616e7",
+        "android_client_info": {
+          "package_name": "com.crazynnc.loginmelhor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "179783913510-7t399fn0u7ri85cscam1tipvbaffbcei.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.crazynnc.loginmelhor",
+            "certificate_hash": "cb8a5ef652111601ae72eaae86a6bc4cd6705dba"
+          }
+        },
+        {
+          "client_id": "179783913510-blkv3a4j12ptk4jbnnglh8psv45km7nv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAagqpjGPBSjrAI0bz9dpLNm7obXI6bsjc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "179783913510-blkv3a4j12ptk4jbnnglh8psv45km7nv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
