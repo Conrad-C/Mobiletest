@@ -6,20 +6,17 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.functions.FirebaseFunctions;
 import com.google.firebase.functions.HttpsCallableResult;
-import com.google.firebase.messaging.FirebaseMessagingService;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class NotificationReceiver extends BroadcastReceiver {
+    //Iniciar variaveis
     String url, type, callid, callednumber;
     String urlfixo ="http://douglas.aws.snep7.com/";
     CharSequence transferencia;
