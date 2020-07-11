@@ -33,7 +33,7 @@ public class TelaPosLogin extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_poslogin);
-
+        getSupportActionBar().hide();
         definir = findViewById(R.id.button);
 
         //Garantindo a validez da sessao para pegar o token unico do dispositivo
@@ -48,18 +48,6 @@ public class TelaPosLogin extends AppCompatActivity {
                 Map<String, Object> updates = new HashMap<>();
                 updates.put("UniqueToken",idToken);
                 ref.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).updateChildren(updates);
-            }
-        });
-
-        //Definindo botao de log out
-
-        logout = findViewById(R.id.textView);
-        logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FirebaseAuth.getInstance().signOut();
-                Toast.makeText(TelaPosLogin.this,"Saiu",Toast.LENGTH_SHORT);
-                startActivity(new Intent(TelaPosLogin.this,MainActivity.class));
             }
         });
 

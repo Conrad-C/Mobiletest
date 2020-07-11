@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="382dp"
+        android:layout_height="34dp"
+        android:text="Vincular Device SIP"
+        android:textColor="#5E5753"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.551"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.04" />
+
+    <View
+        android:id="@+id/view"
+        app:layout_constraintEnd_toEndOf="@+id/textView"
+        app:layout_constraintStart_toStartOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        android:layout_width="381dp"
+        android:layout_height="1dp"
+        android:background="#575656"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="60dp" />
+
+    <TextView
+        android:id="@+id/passoum"
+        android:layout_width="52dp"
+        android:layout_height="47dp"
+        android:layout_marginTop="90dp"
+        android:layout_marginBottom="334dp"
+        android:background="@drawable/circle_textview"
+        android:backgroundTint="#D1D0D0"
+        android:text="  ✓"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/button2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <TextView
+        android:id="@+id/textView15"
+        android:layout_width="204dp"
+        android:layout_height="94dp"
+        android:layout_marginTop="52dp"
+        android:text="Device vinculado    com sucesso!"
+        android:textAlignment="center"
+        android:textColor="#5E5753"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/button2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/passoum"
+        app:layout_constraintVertical_bias="0.031" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="164dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="441dp"
+        android:layout_marginBottom="116dp"
+        android:background="@drawable/round_edittext"
+        android:backgroundTint="#ECA97E"
+        android:text="CONCLUIR"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

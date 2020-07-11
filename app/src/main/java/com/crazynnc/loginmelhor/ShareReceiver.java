@@ -3,7 +3,6 @@ package com.crazynnc.loginmelhor;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 
 public class ShareReceiver extends BroadcastReceiver {
     String shareobject;

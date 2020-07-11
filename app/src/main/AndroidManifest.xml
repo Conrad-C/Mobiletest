@@ -10,7 +10,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_snep_png"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
@@ -26,6 +26,13 @@
         </activity>
         <activity android:name=".TelaPosLogin"/>
         <activity android:name=".MapActivity"/>
+        <activity android:name=".PosLoginDrawer"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name=".RamalVincular"/>
+        <activity android:name=".RamalActivity"/>
+        <activity android:name=".RamalAutenticar"/>
+        <activity android:name=".RamalAndamento"/>
+
         <service
             android:name=".FirebaseMessageService">
             <intent-filter>

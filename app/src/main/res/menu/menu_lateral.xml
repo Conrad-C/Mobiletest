@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+
+        <item android:color="#ECA97E"
+            android:id="@+id/m_principal"
+            android:icon="@drawable/ic_principal"
+            android:title="Principal" />
+        <item
+            android:id="@+id/m_contatos"
+            android:icon="@drawable/ic_contatos"
+            android:title="Contatos" />
+        <item
+            android:id="@+id/m_historico"
+            android:icon="@drawable/ic_historico"
+            android:title="Historico"/>
+        <item
+            android:id="@+id/m_usuarios"
+            android:icon="@drawable/ic_usuarios"
+            android:title="Usuarios"/>
+        <item
+            android:id="@+id/m_licencas"
+            android:icon="@drawable/ic_licencas"
+            android:title="Licencas"/>
+
+
+        <item
+            android:title="Preferencias">
+            <menu>
+                <item
+                    android:icon="@drawable/ic_preferencias"
+                    android:title="Ramal Móvel"
+                    android:id="@+id/m_ramal" android:checkable="true"/>
+
+                <item
+                    android:icon="@drawable/ic_preferencias"
+                    android:title="Perfil"
+                    android:id="@+id/m_perfil" android:checkable="true"/>
+
+                <item
+                    android:icon="@drawable/ic_preferencias"
+                    android:title="Device SIP"
+                    android:id="@+id/m_devicesip" android:checkable="true"/>
+                <item
+                    android:icon="@drawable/ic_preferencias"
+                    android:title="Seguranca"
+                    android:id="@+id/m_seguranca" android:checkable="true"/>
+                <item
+                    android:icon="@drawable/ic_preferencias"
+                    android:title="Definir local"
+                    android:id="@+id/m_definirlocal" android:checkable="true"/>
+            </menu>
+        </item>
+
+    <item android:title="Opções de conta">
+        <menu>
+            <item
+                android:title="Logout"
+                android:icon="@drawable/ic_logout"
+                android:id="@+id/m_logout"/>
+        </menu>
+    </item>
+
+    </group>
+</menu>

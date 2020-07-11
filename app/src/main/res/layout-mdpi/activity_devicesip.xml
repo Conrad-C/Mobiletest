@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <Button
+        android:id="@+id/autenticatenumber"
+        android:layout_width="157dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="84dp"
+        android:background="@drawable/round_edittext"
+        android:backgroundTint="#F26C45"
+        android:text="Adicionar device"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.042"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="41dp"
+        android:layout_height="23dp"
+        android:layout_marginTop="9dp"
+        android:layout_marginBottom="10dp"
+        android:tint="#5E5753"
+        app:layout_constraintBottom_toBottomOf="@+id/autenticatenumber"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.041"
+        app:layout_constraintStart_toEndOf="@+id/autenticatenumber"
+        app:layout_constraintTop_toTopOf="@+id/autenticatenumber"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@mipmap/ic_info" />
+
+    <ScrollView
+        android:layout_width="307dp"
+        android:layout_height="320dp"
+        android:layout_marginTop="25dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/autenticatenumber">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ExpandableListView
+                android:id="@+id/expandablelist"
+                android:layout_width="307dp"
+                android:layout_height="320dp"/>
+        </LinearLayout>
+    </ScrollView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
